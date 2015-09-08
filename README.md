@@ -1,4 +1,4 @@
-# This project is a fork of [FRESteamWorks by Ventero](https://github.com/Ventero/FRESteamWorks/)
+This project is a fork of [FRESteamWorks by Ventero](https://github.com/Ventero/FRESteamWorks/)
 to adapt the Steam API changes in v1.3: Workshop access in ISteamRemoteStorage had been replaced by ISteamUGC.
 
 Methods added:
@@ -30,7 +30,46 @@ getItemInstallInfo(publishedFileId:String):UGCItemInstallInfo
 getItemDownloadInfo(publishedFileId:String):Array
 downloadItem(publishedFileId:String, highPriority:Boolean):Boolean
 ```
+
 Methods removed:
+```
+UGCDownload(handle:String, priority:uint):Boolean
+UGCRead(handle:String, size:int, offset:uint, data:ByteArray):Boolean
+getUGCDownloadProgress(handle:String):Array
+getUGCDownloadResult(handle:String):DownloadUGCResult
+publishWorkshopFile(name:String, preview:String, appId:uint, title:String, description:String, visibility:uint, tags:Array, fileType:uint):Boolean
+publishWorkshopFileResult():String
+deletePublishedFile(file:String):Boolean
+getPublishedFileDetails(file:String, maxAge:uint = 0):Boolean
+getPublishedFileDetailsResult(file:String):FileDetailsResult
+enumerateUserPublishedFiles(startIndex:uint):Boolean
+enumerateUserPublishedFilesResult():UserFilesResult
+enumeratePublishedWorkshopFiles(type:uint, start:uint, count:uint, days:uint, tags:Array, userTags:Array):Boolean
+enumeratePublishedWorkshopFilesResult():WorkshopFilesResult
+enumerateUserSubscribedFiles(startIndex:uint):Boolean
+enumerateUserSubscribedFilesResult():SubscribedFilesResult
+enumerateUserSharedWorkshopFiles(steamID:String, start:uint, required:Array, excluded:Array):Boolean
+enumerateUserSharedWorkshopFilesResult():UserFilesResult
+enumeratePublishedFilesByUserAction(action:uint, startIndex:uint):Boolean
+enumeratePublishedFilesByUserActionResult():FilesByUserActionResult
+subscribePublishedFile(file:String):Boolean
+unsubscribePublishedFile(file:String):Boolean
+createPublishedFileUpdateRequest(file:String):String
+updatePublishedFileFile(handle:String, file:String):Boolean
+updatePublishedFilePreviewFile(handle:String, preview:String):Boolean
+updatePublishedFileTitle(handle:String, title:String):Boolean
+updatePublishedFileDescription(handle:String, description:String):Boolean
+updatePublishedFileSetChangeDescription(handle:String, changeDesc:String):Boolean
+updatePublishedFileVisibility(handle:String, visibility:uint):Boolean
+updatePublishedFileTags(handle:String, tags:Array):Boolean
+commitPublishedFileUpdate(handle:String):Boolean
+getPublishedItemVoteDetails(file:String):Boolean
+getPublishedItemVoteDetailsResult():ItemVoteDetailsResult
+getUserPublishedItemVoteDetails(file:String):Boolean
+getUserPublishedItemVoteDetailsResult():UserVoteDetails
+updateUserPublishedItemVote(file:String, upvote:Boolean):Boolean
+setUserPublishedFileAction(file:String, action:uint):Boolean
+```
 
 # Steamworks API for AIR applications #
 
