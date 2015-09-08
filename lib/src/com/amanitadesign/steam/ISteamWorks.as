@@ -86,42 +86,32 @@ package com.amanitadesign.steam {
 		/******************/
 		/* UGC / Workshop */
 		/******************/
-		function UGCDownload(handle:String, priority:uint):Boolean
-		function UGCRead(handle:String, size:int, offset:uint, data:ByteArray):Boolean
-		function getUGCDownloadProgress(handle:String):Array
-		function getUGCDownloadResult(handle:String):DownloadUGCResult
-		function publishWorkshopFile(name:String, preview:String, appId:uint, title:String, description:String, visibility:uint, tags:Array, fileType:uint):Boolean
-		function publishWorkshopFileResult():String
-		function deletePublishedFile(file:String):Boolean
-		function getPublishedFileDetails(file:String, maxAge:uint = 0):Boolean
-		function getPublishedFileDetailsResult(file:String):FileDetailsResult
-		function enumerateUserPublishedFiles(startIndex:uint):Boolean
-		function enumerateUserPublishedFilesResult():UserFilesResult
-		function enumeratePublishedWorkshopFiles(type:uint, start:uint, count:uint, days:uint, tags:Array, userTags:Array):Boolean
-		function enumeratePublishedWorkshopFilesResult():WorkshopFilesResult
-		function enumerateUserSubscribedFiles(startIndex:uint):Boolean
-		function enumerateUserSubscribedFilesResult():SubscribedFilesResult
-		function enumerateUserSharedWorkshopFiles(steamID:String, start:uint, required:Array, excluded:Array):Boolean
-		function enumerateUserSharedWorkshopFilesResult():UserFilesResult
-		function enumeratePublishedFilesByUserAction(action:uint, startIndex:uint):Boolean
-		function enumeratePublishedFilesByUserActionResult():FilesByUserActionResult
-		function subscribePublishedFile(file:String):Boolean
-		function unsubscribePublishedFile(file:String):Boolean
-		function createPublishedFileUpdateRequest(file:String):String
-		function updatePublishedFileFile(handle:String, file:String):Boolean
-		function updatePublishedFilePreviewFile(handle:String, preview:String):Boolean
-		function updatePublishedFileTitle(handle:String, title:String):Boolean
-		function updatePublishedFileDescription(handle:String, description:String):Boolean
-		function updatePublishedFileSetChangeDescription(handle:String, changeDesc:String):Boolean
-		function updatePublishedFileVisibility(handle:String, visibility:uint):Boolean
-		function updatePublishedFileTags(handle:String, tags:Array):Boolean
-		function commitPublishedFileUpdate(handle:String):Boolean
-		function getPublishedItemVoteDetails(file:String):Boolean
-		function getPublishedItemVoteDetailsResult():ItemVoteDetailsResult
-		function getUserPublishedItemVoteDetails(file:String):Boolean
-		function getUserPublishedItemVoteDetailsResult():UserVoteDetails
-		function updateUserPublishedItemVote(file:String, upvote:Boolean):Boolean
-		function setUserPublishedFileAction(file:String, action:uint):Boolean
+		function createQueryUserUGCRequest(userId:String, listType:uint, matchingUGCType:uint, sortOrder:uint, creatorAppId:uint, consumerAppId:uint, page:uint):String
+		function createQueryAllUGCRequest(queryType:uint, matchingUGCType:uint, creatorAppId:uint, consumerAppId:uint, page:uint):String
+		function createQueryUGCDetailsRequest(publishedFileIds:Array):String
+		function sendQueryUGCRequest(handle:String):Boolean
+		function getQueryUGCResult():Array
+		function createItem(consumerAppId:uint, fileType:uint):Boolean
+		function createItemResult():String
+		function startItemUpdate(consumerAppId:uint, fileId:String):String
+		function setItemTitle(handle:String, title:String):Boolean
+		function setItemDescription(handle:String, desc:String):Boolean
+		function setItemUpdateLanguage(handle:String, lang:String):Boolean
+		function setItemMetadata(handle:String, metadata:String):Boolean
+		function setItemVisibility(handle:String, visibility:uint):Boolean
+		function setItemTags(handle:String, tags:Array):Boolean
+		function setItemContent(handle:String, contentFolder:String):Boolean
+		function setItemPreview(handle:String, previewPath:String):Boolean
+		function addItemKeyValueTag(handle:String, key:String, value:String):Boolean
+		function removeItemKeyValueTags(handle:String, key:String):Boolean
+		function submitItemUpdate(handle:String, changeNote:String):Boolean
+		function subscribeItem(publishedFileId:String):Boolean
+		function unsubscribeItem(publishedFileId:String):Boolean
+		function getSubscribedItems():Array
+		function getItemState(publishedFileId:String):uint
+		function getItemInstallInfo(publishedFileId:String):UGCItemInstallInfo
+		function getItemDownloadInfo(publishedFileId:String):Array
+		function downloadItem(publishedFileId:String, highPriority:Boolean):Boolean
 		/***********/
 		/* Friends */
 		/***********/

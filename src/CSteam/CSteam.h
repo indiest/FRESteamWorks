@@ -132,6 +132,72 @@ public:
 	bool GetUGCDownloadProgress(UGCHandle_t handle, int32 *downloaded, int32 *expected);
 	RemoteStorageDownloadUGCResult_t* GetUGCDownloadResult(UGCHandle_t handle);
 
+
+
+	// ISteamUGC
+	// Query UGC associated with a user. Creator app id or consumer app id must be valid and be set to the current running app. unPage should start at 1.
+	UGCQueryHandle_t CreateQueryUserUGCRequest(AccountID_t unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint32 unPage);
+
+	// Query for all matching UGC. Creator app id or consumer app id must be valid and be set to the current running app. unPage should start at 1.
+	UGCQueryHandle_t CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint32 unPage);
+
+	// Query for the details of the given published file ids (the RequestUGCDetails call is deprecated and replaced with this)
+	UGCQueryHandle_t CreateQueryUGCDetailsRequest(PublishedFileId_t *pvecPublishedFileID, uint32 unNumPublishedFileIDs);
+
+	// Send the query to Steam
+	bool SendQueryUGCRequest(UGCQueryHandle_t handle);
+
+	// Retrieve all result after receiving the callback for querying UGC
+	std::vector<SteamUGCDetails_t> GetQueryUGCResult();
+
+	// Retrieve an individual result after receiving the callback for querying UGC
+	std::string GetQueryUGCPreviewURL(uint32 index);
+	std::string GetQueryUGCMetadata(uint32 index);
+
+	// Release the request to free up memory, after retrieving results
+	bool ReleaseQueryUGCRequest();
+
+	bool CreateItem(AppId_t nConsumerAppId, EWorkshopFileType eFileType); // create new item for this app with no content attached yet
+	PublishedFileId_t CreateItemResult();
+	UGCUpdateHandle_t StartItemUpdate(AppId_t nConsumerAppId, PublishedFileId_t nPublishedFileID); // start an UGC item update. Set changed properties before commiting update with CommitItemUpdate()
+
+	bool SetItemTitle(UGCUpdateHandle_t handle, std::string pchTitle); // change the title of an UGC item
+	bool SetItemDescription(UGCUpdateHandle_t handle, std::string pchDescription); // change the description of an UGC item
+	bool SetItemUpdateLanguage(UGCUpdateHandle_t handle, std::string pchLanguage); // specify the language of the title or description that will be set
+	bool SetItemMetadata(UGCUpdateHandle_t handle, std::string pchMetaData); // change the metadata of an UGC item (max = k_cchDeveloperMetadataMax)
+	bool SetItemVisibility(UGCUpdateHandle_t handle, ERemoteStoragePublishedFileVisibility eVisibility); // change the visibility of an UGC item
+	bool SetItemTags(UGCUpdateHandle_t updateHandle, const SteamParamStringArray_t *pTags); // change the tags of an UGC item
+	bool SetItemContent(UGCUpdateHandle_t handle, std::string pszContentFolder); // update item content from this local folder
+	bool SetItemPreview(UGCUpdateHandle_t handle, std::string pszPreviewFile); //  change preview image file for this item. pszPreviewFile points to local image file, which must be under 1MB in size
+	bool RemoveItemKeyValueTags(UGCUpdateHandle_t handle, std::string pchKey); // remove any existing key-value tags with the specified key
+	bool AddItemKeyValueTag(UGCUpdateHandle_t handle, std::string pchKey, std::string pchValue); // add new key-value tags for the item. Note that there can be multiple values for a tag.
+
+	bool SubmitItemUpdate(UGCUpdateHandle_t handle, std::string pchChangeNote); // commit update process started with StartItemUpdate()
+	/*
+	EItemUpdateStatus GetItemUpdateProgress(UGCUpdateHandle_t handle, uint64 *punBytesProcessed, uint64* punBytesTotal);
+	*/
+	SteamAPICall_t SubscribeItem(PublishedFileId_t nPublishedFileID); // subscribe to this item, will be installed ASAP
+	SteamAPICall_t UnsubscribeItem(PublishedFileId_t nPublishedFileID); // unsubscribe from this item, will be uninstalled after game quits
+	std::vector<PublishedFileId_t> GetSubscribedItems(); // all subscribed item PublishFileIDs
+
+	// get EItemState flags about item on this client
+	uint32 GetItemState(PublishedFileId_t nPublishedFileID);
+
+	// get info about currently installed content on disc for items that have k_EItemStateInstalled set
+	// if k_EItemStateLegacyItem is set, pchFolder contains the path to the legacy file itself (not a folder)
+	bool GetItemInstallInfo(PublishedFileId_t nPublishedFileID, uint64 *punSizeOnDisk, char *pchFolder, uint32 cchFolderSize, uint32 *punTimeStamp);
+
+	// get info about pending update for items that have k_EItemStateNeedsUpdate set. punBytesTotal will be valid after download started once
+	bool GetItemDownloadInfo(PublishedFileId_t nPublishedFileID, uint64 *punBytesDownloaded, uint64 *punBytesTotal);
+
+	// download new or update already installed item. If function returns true, wait for DownloadItemResult_t. If the item is already installed,
+	// then files on disk should not be used until callback received. If item is not subscribed to, it will be cached for some time.
+	// If bHighPriority is set, any other item download will be suspended and this item downloaded ASAP.
+	bool DownloadItem(PublishedFileId_t nPublishedFileID, bool bHighPriority);
+	// End of ISteamUGC
+
+
+
 	bool PublishWorkshopFile(std::string name, std::string preview, AppId_t nConsumerAppId,
 		std::string title, std::string description, ERemoteStoragePublishedFileVisibility visibility,
 		SteamParamStringArray_t *tags, EWorkshopFileType fileType);
@@ -236,6 +302,7 @@ private:
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	std::auto_ptr<LeaderboardScoreUploaded_t> m_ScoreUpload;
 	std::auto_ptr<LeaderboardScoresDownloaded_t> m_ScoreDownloaded;
+	std::auto_ptr<SteamUGCQueryCompleted_t> m_UGCQuery;
 	std::auto_ptr<RemoteStorageEnumerateUserPublishedFilesResult_t> m_UserPublishedFiles;
 	std::auto_ptr<RemoteStorageEnumerateWorkshopFilesResult_t> m_WorkshopFiles;
 	std::auto_ptr<RemoteStorageEnumerateUserSubscribedFilesResult_t> m_SubscribedFiles;
@@ -276,6 +343,14 @@ private:
 	                 LeaderboardScoresDownloaded_t,
 	                 m_CallbackDownloadLeaderboardEntries);
 
+	// ISteamUGC
+	STEAM_CALLRESULT(CSteam, OnQueryUGC, SteamUGCQueryCompleted_t, m_CallbackQueryUGC);
+	STEAM_CALLRESULT(CSteam, OnCreateItem, CreateItemResult_t, m_CallbackCreateItem);
+	STEAM_CALLRESULT(CSteam, OnSubmitItemUpdate, SubmitItemUpdateResult_t, m_CallbackSubmitItemUpdate);
+	STEAM_CALLRESULT(CSteam, OnSubscribeItem, RemoteStorageSubscribePublishedFileResult_t, m_CallbackSubscribeItem);
+	STEAM_CALLRESULT(CSteam, OnUnsubscribeItem, RemoteStorageUnsubscribePublishedFileResult_t, m_CallbackUnsubscribeItem);
+	STEAM_CALLBACK(CSteam, OnDownloadItem, DownloadItemResult_t, m_CallbackDownloadItem);
+	
 	// workshop
 	STEAM_CALLRESULT(CSteam, OnFileShare,
 	                 RemoteStorageFileShareResult_t,

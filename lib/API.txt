@@ -303,27 +303,88 @@ public function getQuota():Array
 /******************/
 /* UGC / Workshop */
 /******************/
-// ISteamUGC
+// ISteamUGC Query API
+// Page should start at 1.
+public function createQueryUserUGCRequest(userId:String, listType:uint, matchingUGCType:uint, sortOrder:uint, creatorAppId:uint, consumerAppId:uint, page:uint):String
+
+public function createQueryAllUGCRequest(queryType:uint, matchingUGCType:uint, creatorAppId:uint, consumerAppId:uint, page:uint):String
+
+public function createQueryUGCDetailsRequest(publishedFileIds:Array):String
+
+public function sendQueryUGCRequest(handle:String):Boolean
+
+// @return Array of SteamUGCDetails
+// releaseQueryUGCRequest() will be auto-called after retrieving the result
+public function getQueryUGCResult():Array
+
+// ISteamUGC Creator API
+public function createItem(consumerAppId:uint, fileType:uint):Boolean
+
+public function createItemResult():String
+
+public function startItemUpdate(consumerAppId:uint, fileId:String):String
+
+public function setItemTitle(handle:String, title:String):Boolean
+
+public function setItemDescription(handle:String, desc:String):Boolean
+
+public function setItemUpdateLanguage(handle:String, lang:String):Boolean
+
+public function setItemMetadata(handle:String, metadata:String):Boolean
+
+public function setItemVisibility(handle:String, visibility:uint):Boolean
+
+public function setItemTags(handle:String, tags:Array):Boolean
+
+public function setItemContent(handle:String, contentFolder:String):Boolean
+
+public function setItemPreview(handle:String, previewPath:String):Boolean
+
+public function addItemKeyValueTag(handle:String, key:String, value:String):Boolean
+
+public function removeItemKeyValueTags(handle:String, key:String):Boolean
+
+public function submitItemUpdate(handle:String, changeNote:String):Boolean
+
+// ISteamUGC Consumer API
+public function subscribeItem(publishedFileId:String):Boolean
+
+public function unsubscribeItem(publishedFileId:String):Boolean
+
+// @returns Strings of PublishedFileId
+public function getSubscribedItems():Array
+
+// @returns UGCConstants.ITEMSTATE_* flags about item on this client
+public function getItemState(publishedFileId:String):uint
+
+public function getItemInstallInfo(publishedFileId:String):UGCItemInstallInfo
+
+// @returns Array[0] = bytesDownloaded, Array[1] = bytesTotal
+public function getItemDownloadInfo(publishedFileId:String):Array
+
+public function downloadItem(publishedFileId:String, highPriority:Boolean):Boolean
+
+// Deprecated ISteamRemoteStorage API
 
 // UGCDownload(handle, priority)
 // @default false
 // @arg handle is a UGC handle obtained from fileShareResult() or FileDetailsResult
 // @event RESPONSE_OnUGCDownload, response = m_eResult.
 // Call getUGCDownloadResult to get the corresponding DownloadUGCResult object.
-public function UGCDownload(handle:String, priority:uint):Boolean
+//public function UGCDownload(handle:String, priority:uint):Boolean
 
 // UGCRead(handle, data, size, offset, k_EUGCRead_ContinueReadingUntilFinished)
 // @default false
 // @arg handle is a UGC handle (see UGCDownload for details)
 // Reads the file contents into the data ByteArray after clearing it first.
-public function UGCRead(handle:String, size:int, offset:uint, data:ByteArray):Boolean
+//public function UGCRead(handle:String, size:int, offset:uint, data:ByteArray):Boolean
 
 // GetUGCDownloadProgress(handle, ...)
 // @arg handle is a UGC handle (see UGCDownload for details)
 // @default []
 // Returns as an Array containing two ints, bytesDownloaded and bytesExpected,
 // in that order.
-public function getUGCDownloadProgress(handle:String):Array
+//public function getUGCDownloadProgress(handle:String):Array
 
 // @default null
 // @arg handle is a UGC handle (see UGCDownload for details)
@@ -331,7 +392,7 @@ public function getUGCDownloadProgress(handle:String):Array
 // UGCDownload(handle), or null if no such call was made.
 // Since one such result is stored per file handle, it's safe to call
 // UGCDownload on multiple files at the same time.
-public function getUGCDownloadResult(handle:String):DownloadUGCResult
+//public function getUGCDownloadResult(handle:String):DownloadUGCResult
 
 // PublishWorkshopFile(name, preview, appId, title, description, visibility, tags, fileType)
 // @default false
@@ -341,13 +402,13 @@ public function getUGCDownloadResult(handle:String):DownloadUGCResult
 // @event RESPONSE_OnPublishWorkshopFile, response = m_eResult
 // If response = SteamResult.OK, call publishWorkshopFileResult to get the
 // corresponding published file id.
-public function publishWorkshopFile(name:String, preview:String, appId:uint, title:String, description:String, visibility:uint, tags:Array, fileType:uint):Boolean
+//public function publishWorkshopFile(name:String, preview:String, appId:uint, title:String, description:String, visibility:uint, tags:Array, fileType:uint):Boolean
 
 // @default WorkshopConstants.PUBLISHEDFILEID_Invalid
 // Returns the file id of the last file successfuly shared with a call to
 // publishWorkshopFile, or WorkshopConstants.PUBLISHEDFILEID_Invalid if no such
 // call was made.
-public function publishWorkshopFileResult():String
+//public function publishWorkshopFileResult():String
 
 // DeletePublishedFile(file)
 // @default false
@@ -355,7 +416,7 @@ public function publishWorkshopFileResult():String
 //      obtained by enumerating the workshop
 // @event RESPONSE_OnDeletePublishedFile, response = m_eResult
 // indicating successful deletion of the file.
-public function deletePublishedFile(file:String):Boolean
+//public function deletePublishedFile(file:String):Boolean
 
 // GetPublishedFileDetails(file, maxAge)
 // @default false
@@ -363,7 +424,7 @@ public function deletePublishedFile(file:String):Boolean
 // @event RESPONSE_OnGetPublishedFileDetails, response = m_eResult
 // If response = SteamResults.OK, call getPublishedFileDetailsResult to get the
 // corresponding FileDetailsResult object.
-public function getPublishedFileDetails(file:String, maxAge:uint = 0):Boolean
+//public function getPublishedFileDetails(file:String, maxAge:uint = 0):Boolean
 
 // @default null
 // @arg file is a published file id (see deletePublishedFile for details)
@@ -371,19 +432,19 @@ public function getPublishedFileDetails(file:String, maxAge:uint = 0):Boolean
 // getPublishedFileDetails(file), or null otherwise.
 // Since one such object is stored per file, it's safe to call
 // getPublishedFileDetails for multiple files at once.
-public function getPublishedFileDetailsResult(file:String):FileDetailsResult
+//public function getPublishedFileDetailsResult(file:String):FileDetailsResult
 
 // EnumerateUserPublishedFiles(startIndex)
 // @default false
 // @event RESPONSE_OnEnumerateUserPublishedFiles, response = m_eResult
 // If the call was successful, call enumerateUserPublishedFilesResult to get
 // the corresponding UserFilesResult object.
-public function enumerateUserPublishedFiles(startIndex:uint):Boolean
+//public function enumerateUserPublishedFiles(startIndex:uint):Boolean
 
 // @default null
 // Returns a UserFilesResult object corresponding to the last successful call
 // to enumerateUserPublishedFiles, or null if no such call was made.
-public function enumerateUserPublishedFilesResult():UserFilesResult
+//public function enumerateUserPublishedFilesResult():UserFilesResult
 
 // EnumeratePublishedWorkshopFiles(type, start, count, days, tags, userTags)
 // @default false
@@ -392,24 +453,24 @@ public function enumerateUserPublishedFilesResult():UserFilesResult
 // @event RESPONSE_OnEnumeratePublishedWorkshopFiles, response = m_eResult
 // If the call was successful, call enumeratePublishedWorkshopFilesResult to
 // get the corresponding WorkshopFilesResult object.
-public function enumeratePublishedWorkshopFiles(type:uint, start:uint, count:uint, days:uint, tags:Array, userTags:Array):Boolean
+//public function enumeratePublishedWorkshopFiles(type:uint, start:uint, count:uint, days:uint, tags:Array, userTags:Array):Boolean
 
 // @default null
 // Returns a WorkshopFilesResult object corresponding to the last successful
 // call to enumeratePublishedWorkshopFilesResult, or null if no such call was made.
-public function enumeratePublishedWorkshopFilesResult():WorkshopFilesResult
+//public function enumeratePublishedWorkshopFilesResult():WorkshopFilesResult
 
 // EnumerateUserSubscribedFiles(startIndex)
 // @default false
 // @event RESPONSE_OnEnumerateUserSubscribedFiles, response = m_eResult
 // If the call was successful, call enumerateUserSubscribedFilesResult to get
 // the corresponding SubscribedFilesResult object.
-public function enumerateUserSubscribedFiles(startIndex:uint):Boolean
+//public function enumerateUserSubscribedFiles(startIndex:uint):Boolean
 
 // @default null
 // Returns a SubscribedFilesResult object corresponding to the last successful
 // call to enumerateUserSubscribedFiles, or null if no such call was made.
-public function enumerateUserSubscribedFilesResult():SubscribedFilesResult
+//public function enumerateUserSubscribedFilesResult():SubscribedFilesResult
 
 // EnumerateUserSharedWorkshopFiles(steamID, start, required, excluded)
 // @default false
@@ -418,12 +479,12 @@ public function enumerateUserSubscribedFilesResult():SubscribedFilesResult
 // If the call was successful, call
 // enumerateUserSharedWorkshopFilesResult to get the corresponding UserFilesResult
 // object.
-public function enumerateUserSharedWorkshopFiles(steamID:String, start:uint, required:Array, excluded:Array):Boolean
+//public function enumerateUserSharedWorkshopFiles(steamID:String, start:uint, required:Array, excluded:Array):Boolean
 
 // @default null
 // Returns a UserFilesResult object corresponding to the last successful
 // call to enumerateUserSharedWorkshopFiles, or null if no such call was made.
-public function enumerateUserSharedWorkshopFilesResult():UserFilesResult
+//public function enumerateUserSharedWorkshopFilesResult():UserFilesResult
 
 // EnumeratePublishedFilesByUserAction(action, startIndex)
 // @default false
@@ -432,84 +493,84 @@ public function enumerateUserSharedWorkshopFilesResult():UserFilesResult
 // If the call was successful, call
 // enumerateUserSharedWorkshopFilesResult to get the corresponding
 // FilesByUserActionResult object.
-public function enumeratePublishedFilesByUserAction(action:uint, startIndex:uint):Boolean
+//public function enumeratePublishedFilesByUserAction(action:uint, startIndex:uint):Boolean
 
 // @default null
 // Returns a FilesByUserActionResult object corresponding to the last successful
 // call to enumeratePublishedFilesByUserAction, or null if no such call was made.
-public function enumeratePublishedFilesByUserActionResult():FilesByUserActionResult
+//public function enumeratePublishedFilesByUserActionResult():FilesByUserActionResult
 
 // SubscribePublishedFile(file)
 // @default false
 // @arg file is a published file id (see deletePublishedFile for details)
 // Generates a RESPONSE_OnSubscribePublishedFile event with response = m_eResult.
-public function subscribePublishedFile(file:String):Boolean
+//public function subscribePublishedFile(file:String):Boolean
 
 // UnsubscribePublishedFile(file)
 // @default false
 // @arg file is a published file id (see deletePublishedFile for details)
 // Generates a RESPONSE_OnUnsubscribePublishedFile event with response = m_eResult.
-public function unsubscribePublishedFile(file:String):Boolean
+//public function unsubscribePublishedFile(file:String):Boolean
 
 // CreatePublishedFileUpdateRequest(file)
 // @default WorkshopConstants.FILEUPDATEHANDLE_Invalid
 // @arg file is a published file id (see deletePublishedFile for details)
-public function createPublishedFileUpdateRequest(file:String):String
+//public function createPublishedFileUpdateRequest(file:String):String
 
 // UpdatePublishedFileFile(handle, file)
 // @default false
 // @arg handle is a update request handle returned by createPublishedFileUpdateRequest
-public function updatePublishedFileFile(handle:String, file:String):Boolean
+//public function updatePublishedFileFile(handle:String, file:String):Boolean
 
 // UpdatePublishedFilePreviewFile(handle, preview)
 // @default false
 // @arg handle is a update request handle returned by createPublishedFileUpdateRequest
-public function updatePublishedFilePreviewFile(handle:String, preview:String):Boolean
+//public function updatePublishedFilePreviewFile(handle:String, preview:String):Boolean
 
 // UpdatePublishedFileTitle(handle, title)
 // @default false
 // @arg handle is a update request handle returned by createPublishedFileUpdateRequest
-public function updatePublishedFileTitle(handle:String, title:String):Boolean
+//public function updatePublishedFileTitle(handle:String, title:String):Boolean
 
 // UpdatePublishedFileDescription(handle, description)
 // @default false
 // @arg handle is a update request handle returned by createPublishedFileUpdateRequest
-public function updatePublishedFileDescription(handle:String, description:String):Boolean
+//public function updatePublishedFileDescription(handle:String, description:String):Boolean
 
 // UpdatePublishedFileSetChangeDescription(handle, changeDesc)
 // @default false
 // @arg handle is a update request handle returned by createPublishedFileUpdateRequest
-public function updatePublishedFileSetChangeDescription(handle:String, changeDesc:String):Boolean
+//public function updatePublishedFileSetChangeDescription(handle:String, changeDesc:String):Boolean
 
 // UpdatePublishedFileVisibility(handle, visibility)
 // @default false
 // @arg handle is a update request handle returned by createPublishedFileUpdateRequest
 // @arg visibility should be one of the WorkshopConstants.VISIBILITY_* constants
-public function updatePublishedFileVisibility(handle:String, visibility:uint):Boolean
+//public function updatePublishedFileVisibility(handle:String, visibility:uint):Boolean
 
 // UpdatePublishedFileTags(handle, tags)
 // @default false
 // @arg handle is a update request handle returned by createPublishedFileUpdateRequest
 // @arg tags should be an Array of Strings
-public function updatePublishedFileTags(handle:String, tags:Array):Boolean
+//public function updatePublishedFileTags(handle:String, tags:Array):Boolean
 
 // CommitPublishedFileUpdate(handle)
 // @default false
 // @arg handle is a update request handle returned by createPublishedFileUpdateRequest
 // @event RESPONSE_OnCommitPublishedFileUpdate, response = m_eResult
-public function commitPublishedFileUpdate(handle:String):Boolean
+//public function commitPublishedFileUpdate(handle:String):Boolean
 
 // GetPublishedItemVoteDetails(file)
 // @default false
 // @event RESPONSE_OnGetPublishedItemVoteDetails, response = m_eResult
 // If the call was successful, call enumerateUserSharedWorkshopFilesResult to
 // get the corresponding UserFilesResult object.
-public function getPublishedItemVoteDetails(file:String):Boolean
+//public function getPublishedItemVoteDetails(file:String):Boolean
 
 // @default null
 // Returns a ItemVoteDetailsResult object corresponding to the last successful
 // call to getPublishedItemVoteDetails, or null if no such call was made.
-public function getPublishedItemVoteDetailsResult():ItemVoteDetailsResult
+//public function getPublishedItemVoteDetailsResult():ItemVoteDetailsResult
 
 // GetUserPublishedItemVoteDetails(file)
 // @default false
@@ -517,25 +578,25 @@ public function getPublishedItemVoteDetailsResult():ItemVoteDetailsResult
 // @event RESPONSE_OnGetUserPublishedItemVoteDetails, response = m_eResult
 // If the call was successful, call enumerateUserSharedWorkshopFilesResult to
 // get the corresponding UserVoteDetails object.
-public function getUserPublishedItemVoteDetails(file:String):Boolean
+//public function getUserPublishedItemVoteDetails(file:String):Boolean
 
 // @default null
 // Returns a UserVoteDetails object corresponding to the last successful call
 // to getUserPublishedItemVoteDetails, or null if no such call was made.
-public function getUserPublishedItemVoteDetailsResult():UserVoteDetails
+//public function getUserPublishedItemVoteDetailsResult():UserVoteDetails
 
 // UpdateUserPublishedItemVote(file, upvote)
 // @default false
 // @arg file is a published file id (see deletePublishedFile for details)
 // @event RESPONSE_OnUpdateUserPublishedItemVote, response = m_eResult
-public function updateUserPublishedItemVote(file:String, upvote:Boolean):Boolean
+//public function updateUserPublishedItemVote(file:String, upvote:Boolean):Boolean
 
 // SetUserPublishedFileAction(file, action)
 // @default false
 // @arg file is a published file id (see deletePublishedFile for details)
 // @arg action should be one one of the WorkshopConstants.FILEACTION_* constants.
 // @event RESPONSE_OnSetUserPublishedFileAction, response = m_eResult
-public function setUserPublishedFileAction(file:String, action:uint):Boolean
+//public function setUserPublishedFileAction(file:String, action:uint):Boolean
 
 /***********/
 /* Friends */

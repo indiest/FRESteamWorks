@@ -99,85 +99,75 @@ package com.amanitadesign.steam {
 		/******************/
 		/* UGC / Workshop */
 		/******************/
-		private static const AIRSteam_UGCDownload:int = 46;
-		private static const AIRSteam_UGCRead:int = 47;
-		private static const AIRSteam_GetUGCDownloadProgress:int = 48;
-		private static const AIRSteam_GetUGCDownloadResult:int = 49;
-		private static const AIRSteam_PublishWorkshopFile:int = 50;
-		private static const AIRSteam_PublishWorkshopFileResult:int = 51;
-		private static const AIRSteam_DeletePublishedFile:int = 52;
-		private static const AIRSteam_GetPublishedFileDetails:int = 53;
-		private static const AIRSteam_GetPublishedFileDetailsResult:int = 54;
-		private static const AIRSteam_EnumerateUserPublishedFiles:int = 55;
-		private static const AIRSteam_EnumerateUserPublishedFilesResult:int = 56;
-		private static const AIRSteam_EnumeratePublishedWorkshopFiles:int = 57;
-		private static const AIRSteam_EnumeratePublishedWorkshopFilesResult:int = 58;
-		private static const AIRSteam_EnumerateUserSubscribedFiles:int = 59;
-		private static const AIRSteam_EnumerateUserSubscribedFilesResult:int = 60;
-		private static const AIRSteam_EnumerateUserSharedWorkshopFiles:int = 61;
-		private static const AIRSteam_EnumerateUserSharedWorkshopFilesResult:int = 62;
-		private static const AIRSteam_EnumeratePublishedFilesByUserAction:int = 63;
-		private static const AIRSteam_EnumeratePublishedFilesByUserActionResult:int = 64;
-		private static const AIRSteam_SubscribePublishedFile:int = 65;
-		private static const AIRSteam_UnsubscribePublishedFile:int = 66;
-		private static const AIRSteam_CreatePublishedFileUpdateRequest:int = 67;
-		private static const AIRSteam_UpdatePublishedFileFile:int = 68;
-		private static const AIRSteam_UpdatePublishedFilePreviewFile:int = 69;
-		private static const AIRSteam_UpdatePublishedFileTitle:int = 70;
-		private static const AIRSteam_UpdatePublishedFileDescription:int = 71;
-		private static const AIRSteam_UpdatePublishedFileSetChangeDescription:int = 72;
-		private static const AIRSteam_UpdatePublishedFileVisibility:int = 73;
-		private static const AIRSteam_UpdatePublishedFileTags:int = 74;
-		private static const AIRSteam_CommitPublishedFileUpdate:int = 75;
-		private static const AIRSteam_GetPublishedItemVoteDetails:int = 76;
-		private static const AIRSteam_GetPublishedItemVoteDetailsResult:int = 77;
-		private static const AIRSteam_GetUserPublishedItemVoteDetails:int = 78;
-		private static const AIRSteam_GetUserPublishedItemVoteDetailsResult:int = 79;
-		private static const AIRSteam_UpdateUserPublishedItemVote:int = 80;
-		private static const AIRSteam_SetUserPublishedFileAction:int = 81;
+		private static const AIRSteam_CreateQueryUserUGCRequest:int = 46;
+		private static const AIRSteam_CreateQueryAllUGCRequest:int = 47;
+		private static const AIRSteam_CreateQueryUGCDetailsRequest:int = 48;
+		private static const AIRSteam_SendQueryUGCRequest:int = 49;
+		private static const AIRSteam_GetQueryUGCResult:int = 50;
+		private static const AIRSteam_CreateItem:int = 51;
+		private static const AIRSteam_CreateItemResult:int = 52;
+		private static const AIRSteam_StartItemUpdate:int = 53;
+		private static const AIRSteam_SetItemTitle:int = 54;
+		private static const AIRSteam_SetItemDescription:int = 55;
+		private static const AIRSteam_SetItemUpdateLanguage:int = 56;
+		private static const AIRSteam_SetItemMetadata:int = 57;
+		private static const AIRSteam_SetItemVisibility:int = 58;
+		private static const AIRSteam_SetItemTags:int = 59;
+		private static const AIRSteam_SetItemContent:int = 60;
+		private static const AIRSteam_SetItemPreview:int = 61;
+		private static const AIRSteam_AddItemKeyValueTag:int = 62;
+		private static const AIRSteam_RemoveItemKeyValueTags:int = 63;
+		private static const AIRSteam_SubmitItemUpdate:int = 64;
+		private static const AIRSteam_SubscribeItem:int = 65;
+		private static const AIRSteam_UnsubscribeItem:int = 66;
+		private static const AIRSteam_GetSubscribedItems:int = 67;
+		private static const AIRSteam_GetItemState:int = 68;
+		private static const AIRSteam_GetItemInstallInfo:int = 69;
+		private static const AIRSteam_GetItemDownloadInfo:int = 70;
+		private static const AIRSteam_DownloadItem:int = 71;
 		/***********/
 		/* Friends */
 		/***********/
-		private static const AIRSteam_GetFriendCount:int = 82;
-		private static const AIRSteam_GetFriendByIndex:int = 83;
-		private static const AIRSteam_GetFriendPersonaName:int = 84;
+		private static const AIRSteam_GetFriendCount:int = 72;
+		private static const AIRSteam_GetFriendByIndex:int = 73;
+		private static const AIRSteam_GetFriendPersonaName:int = 74;
 		/******************************/
 		/* Authentication & Ownership */
 		/******************************/
-		private static const AIRSteam_GetAuthSessionTicket:int = 85;
-		private static const AIRSteam_GetAuthSessionTicketResult:int = 86;
-		private static const AIRSteam_BeginAuthSession:int = 87;
-		private static const AIRSteam_EndAuthSession:int = 88;
-		private static const AIRSteam_CancelAuthTicket:int = 89;
-		private static const AIRSteam_UserHasLicenseForApp:int = 90;
+		private static const AIRSteam_GetAuthSessionTicket:int = 75;
+		private static const AIRSteam_GetAuthSessionTicketResult:int = 76;
+		private static const AIRSteam_BeginAuthSession:int = 77;
+		private static const AIRSteam_EndAuthSession:int = 78;
+		private static const AIRSteam_CancelAuthTicket:int = 79;
+		private static const AIRSteam_UserHasLicenseForApp:int = 80;
 		/***********/
 		/* Overlay */
 		/***********/
-		private static const AIRSteam_ActivateGameOverlay:int = 91;
-		private static const AIRSteam_ActivateGameOverlayToUser:int = 92;
-		private static const AIRSteam_ActivateGameOverlayToWebPage:int = 93;
-		private static const AIRSteam_ActivateGameOverlayToStore:int = 94;
-		private static const AIRSteam_ActivateGameOverlayInviteDialog:int = 95;
-		private static const AIRSteam_IsOverlayEnabled:int = 96;
-		private static const AIRSteam_SetOverlayNotificationPosition:int = 97;
+		private static const AIRSteam_ActivateGameOverlay:int = 81;
+		private static const AIRSteam_ActivateGameOverlayToUser:int = 82;
+		private static const AIRSteam_ActivateGameOverlayToWebPage:int = 83;
+		private static const AIRSteam_ActivateGameOverlayToStore:int = 84;
+		private static const AIRSteam_ActivateGameOverlayInviteDialog:int = 85;
+		private static const AIRSteam_IsOverlayEnabled:int = 86;
+		private static const AIRSteam_SetOverlayNotificationPosition:int = 87;
 		/***********************/
 		/* DLC / subscriptions */
 		/***********************/
-		private static const AIRSteam_IsSubscribedApp:int = 98;
-		private static const AIRSteam_IsDLCInstalled:int = 99;
-		private static const AIRSteam_GetDLCCount:int = 100;
-		private static const AIRSteam_InstallDLC:int = 101;
-		private static const AIRSteam_UninstallDLC:int = 102;
-		private static const AIRSteam_DLCInstalledResult:int = 103;
+		private static const AIRSteam_IsSubscribedApp:int = 88;
+		private static const AIRSteam_IsDLCInstalled:int = 89;
+		private static const AIRSteam_GetDLCCount:int = 90;
+		private static const AIRSteam_InstallDLC:int = 91;
+		private static const AIRSteam_UninstallDLC:int = 92;
+		private static const AIRSteam_DLCInstalledResult:int = 93;
 		/********************/
 		/* Microtransaction */
 		/********************/
-		private static const AIRSteam_MicroTxnResult:int = 104;
+		private static const AIRSteam_MicroTxnResult:int = 94;
 		/**********************************/
 		/* Other non-Steamworks functions */
 		/**********************************/
-		private static const AIRSteam_GetEnv:int = 105;
-		private static const AIRSteam_SetEnv:int = 106;
+		private static const AIRSteam_GetEnv:int = 95;
+		private static const AIRSteam_SetEnv:int = 96;
 		// END GENERATED VALUES
 
 		public function FRESteamWorks (target:IEventDispatcher = null) {
@@ -741,181 +731,133 @@ package com.amanitadesign.steam {
 		/******************/
 		/* UGC / Workshop */
 		/******************/
-		public function UGCDownload(handle:String, priority:uint):Boolean {
-			if(!callWrapper(AIRSteam_UGCDownload, [handle, priority])) return false;
+		public function createQueryUserUGCRequest(userId:String, listType:uint, matchingUGCType:uint, sortOrder:uint, creatorAppId:uint, consumerAppId:uint, page:uint):String {
+			if(!callWrapper(AIRSteam_CreateQueryUserUGCRequest, [userId, listType, matchingUGCType, sortOrder, creatorAppId, consumerAppId, page])) return "";
+			return readStringResponse();
+		}
+
+		public function createQueryAllUGCRequest(queryType:uint, matchingUGCType:uint, creatorAppId:uint, consumerAppId:uint, page:uint):String {
+			if(!callWrapper(AIRSteam_CreateQueryAllUGCRequest, [queryType, matchingUGCType, creatorAppId, consumerAppId, page])) return "";
+			return readStringResponse();
+		}
+
+		public function createQueryUGCDetailsRequest(publishedFileIds:Array):String {
+			if(!callWrapper(AIRSteam_CreateQueryUGCDetailsRequest, [publishedFileIds])) return "";
+			return readStringResponse();
+		}
+
+		public function sendQueryUGCRequest(handle:String):Boolean {
+			if(!callWrapper(AIRSteam_SendQueryUGCRequest, [handle])) return false;
 			return readBoolResponse();
 		}
 
-		// manual implementation
-		// public function UGCRead(handle:String, size:int, offset:uint, data:ByteArray):Boolean
-
-		public function getUGCDownloadProgress(handle:String):Array {
-			if(!callWrapper(AIRSteam_GetUGCDownloadProgress, [handle])) return [];
+		public function getQueryUGCResult():Array {
+			if(!callWrapper(AIRSteam_GetQueryUGCResult, [])) return [];
 			return readResponse() as Array;
 		}
 
-		public function getUGCDownloadResult(handle:String):DownloadUGCResult {
-			if(!callWrapper(AIRSteam_GetUGCDownloadResult, [handle])) return null;
-			return readResponse() as DownloadUGCResult;
-		}
-
-		public function publishWorkshopFile(name:String, preview:String, appId:uint, title:String, description:String, visibility:uint, tags:Array, fileType:uint):Boolean {
-			if(!callWrapper(AIRSteam_PublishWorkshopFile, [name, preview, appId, title, description, visibility, tags, fileType])) return false;
+		public function createItem(consumerAppId:uint, fileType:uint):Boolean {
+			if(!callWrapper(AIRSteam_CreateItem, [consumerAppId, fileType])) return false;
 			return readBoolResponse();
 		}
 
-		public function publishWorkshopFileResult():String {
-			if(!callWrapper(AIRSteam_PublishWorkshopFileResult, [])) return WorkshopConstants.PUBLISHEDFILEID_Invalid;
+		public function createItemResult():String {
+			if(!callWrapper(AIRSteam_CreateItemResult, [])) return "";
 			return readStringResponse();
 		}
 
-		public function deletePublishedFile(file:String):Boolean {
-			if(!callWrapper(AIRSteam_DeletePublishedFile, [file])) return false;
-			return readBoolResponse();
-		}
-
-		public function getPublishedFileDetails(file:String, maxAge:uint = 0):Boolean {
-			if(!callWrapper(AIRSteam_GetPublishedFileDetails, [file, maxAge])) return false;
-			return readBoolResponse();
-		}
-
-		public function getPublishedFileDetailsResult(file:String):FileDetailsResult {
-			if(!callWrapper(AIRSteam_GetPublishedFileDetailsResult, [file])) return null;
-			return readResponse() as FileDetailsResult;
-		}
-
-		public function enumerateUserPublishedFiles(startIndex:uint):Boolean {
-			if(!callWrapper(AIRSteam_EnumerateUserPublishedFiles, [startIndex])) return false;
-			return readBoolResponse();
-		}
-
-		public function enumerateUserPublishedFilesResult():UserFilesResult {
-			if(!callWrapper(AIRSteam_EnumerateUserPublishedFilesResult, [])) return null;
-			return readResponse() as UserFilesResult;
-		}
-
-		public function enumeratePublishedWorkshopFiles(type:uint, start:uint, count:uint, days:uint, tags:Array, userTags:Array):Boolean {
-			if(!callWrapper(AIRSteam_EnumeratePublishedWorkshopFiles, [type, start, count, days, tags, userTags])) return false;
-			return readBoolResponse();
-		}
-
-		public function enumeratePublishedWorkshopFilesResult():WorkshopFilesResult {
-			if(!callWrapper(AIRSteam_EnumeratePublishedWorkshopFilesResult, [])) return null;
-			return readResponse() as WorkshopFilesResult;
-		}
-
-		public function enumerateUserSubscribedFiles(startIndex:uint):Boolean {
-			if(!callWrapper(AIRSteam_EnumerateUserSubscribedFiles, [startIndex])) return false;
-			return readBoolResponse();
-		}
-
-		public function enumerateUserSubscribedFilesResult():SubscribedFilesResult {
-			if(!callWrapper(AIRSteam_EnumerateUserSubscribedFilesResult, [])) return null;
-			return readResponse() as SubscribedFilesResult;
-		}
-
-		public function enumerateUserSharedWorkshopFiles(steamID:String, start:uint, required:Array, excluded:Array):Boolean {
-			if(!callWrapper(AIRSteam_EnumerateUserSharedWorkshopFiles, [steamID, start, required, excluded])) return false;
-			return readBoolResponse();
-		}
-
-		public function enumerateUserSharedWorkshopFilesResult():UserFilesResult {
-			if(!callWrapper(AIRSteam_EnumerateUserSharedWorkshopFilesResult, [])) return null;
-			return readResponse() as UserFilesResult;
-		}
-
-		public function enumeratePublishedFilesByUserAction(action:uint, startIndex:uint):Boolean {
-			if(!callWrapper(AIRSteam_EnumeratePublishedFilesByUserAction, [action, startIndex])) return false;
-			return readBoolResponse();
-		}
-
-		public function enumeratePublishedFilesByUserActionResult():FilesByUserActionResult {
-			if(!callWrapper(AIRSteam_EnumeratePublishedFilesByUserActionResult, [])) return null;
-			return readResponse() as FilesByUserActionResult;
-		}
-
-		public function subscribePublishedFile(file:String):Boolean {
-			if(!callWrapper(AIRSteam_SubscribePublishedFile, [file])) return false;
-			return readBoolResponse();
-		}
-
-		public function unsubscribePublishedFile(file:String):Boolean {
-			if(!callWrapper(AIRSteam_UnsubscribePublishedFile, [file])) return false;
-			return readBoolResponse();
-		}
-
-		public function createPublishedFileUpdateRequest(file:String):String {
-			if(!callWrapper(AIRSteam_CreatePublishedFileUpdateRequest, [file])) return WorkshopConstants.FILEUPDATEHANDLE_Invalid;
+		public function startItemUpdate(consumerAppId:uint, fileId:String):String {
+			if(!callWrapper(AIRSteam_StartItemUpdate, [consumerAppId, fileId])) return "";
 			return readStringResponse();
 		}
 
-		public function updatePublishedFileFile(handle:String, file:String):Boolean {
-			if(!callWrapper(AIRSteam_UpdatePublishedFileFile, [handle, file])) return false;
+		public function setItemTitle(handle:String, title:String):Boolean {
+			if(!callWrapper(AIRSteam_SetItemTitle, [handle, title])) return false;
 			return readBoolResponse();
 		}
 
-		public function updatePublishedFilePreviewFile(handle:String, preview:String):Boolean {
-			if(!callWrapper(AIRSteam_UpdatePublishedFilePreviewFile, [handle, preview])) return false;
+		public function setItemDescription(handle:String, desc:String):Boolean {
+			if(!callWrapper(AIRSteam_SetItemDescription, [handle, desc])) return false;
 			return readBoolResponse();
 		}
 
-		public function updatePublishedFileTitle(handle:String, title:String):Boolean {
-			if(!callWrapper(AIRSteam_UpdatePublishedFileTitle, [handle, title])) return false;
+		public function setItemUpdateLanguage(handle:String, lang:String):Boolean {
+			if(!callWrapper(AIRSteam_SetItemUpdateLanguage, [handle, lang])) return false;
 			return readBoolResponse();
 		}
 
-		public function updatePublishedFileDescription(handle:String, description:String):Boolean {
-			if(!callWrapper(AIRSteam_UpdatePublishedFileDescription, [handle, description])) return false;
+		public function setItemMetadata(handle:String, metadata:String):Boolean {
+			if(!callWrapper(AIRSteam_SetItemMetadata, [handle, metadata])) return false;
 			return readBoolResponse();
 		}
 
-		public function updatePublishedFileSetChangeDescription(handle:String, changeDesc:String):Boolean {
-			if(!callWrapper(AIRSteam_UpdatePublishedFileSetChangeDescription, [handle, changeDesc])) return false;
+		public function setItemVisibility(handle:String, visibility:uint):Boolean {
+			if(!callWrapper(AIRSteam_SetItemVisibility, [handle, visibility])) return false;
 			return readBoolResponse();
 		}
 
-		public function updatePublishedFileVisibility(handle:String, visibility:uint):Boolean {
-			if(!callWrapper(AIRSteam_UpdatePublishedFileVisibility, [handle, visibility])) return false;
+		public function setItemTags(handle:String, tags:Array):Boolean {
+			if(!callWrapper(AIRSteam_SetItemTags, [handle, tags])) return false;
 			return readBoolResponse();
 		}
 
-		public function updatePublishedFileTags(handle:String, tags:Array):Boolean {
-			if(!callWrapper(AIRSteam_UpdatePublishedFileTags, [handle, tags])) return false;
+		public function setItemContent(handle:String, contentFolder:String):Boolean {
+			if(!callWrapper(AIRSteam_SetItemContent, [handle, contentFolder])) return false;
 			return readBoolResponse();
 		}
 
-		public function commitPublishedFileUpdate(handle:String):Boolean {
-			if(!callWrapper(AIRSteam_CommitPublishedFileUpdate, [handle])) return false;
+		public function setItemPreview(handle:String, previewPath:String):Boolean {
+			if(!callWrapper(AIRSteam_SetItemPreview, [handle, previewPath])) return false;
 			return readBoolResponse();
 		}
 
-		public function getPublishedItemVoteDetails(file:String):Boolean {
-			if(!callWrapper(AIRSteam_GetPublishedItemVoteDetails, [file])) return false;
+		public function addItemKeyValueTag(handle:String, key:String, value:String):Boolean {
+			if(!callWrapper(AIRSteam_AddItemKeyValueTag, [handle, key, value])) return false;
 			return readBoolResponse();
 		}
 
-		public function getPublishedItemVoteDetailsResult():ItemVoteDetailsResult {
-			if(!callWrapper(AIRSteam_GetPublishedItemVoteDetailsResult, [])) return null;
-			return readResponse() as ItemVoteDetailsResult;
-		}
-
-		public function getUserPublishedItemVoteDetails(file:String):Boolean {
-			if(!callWrapper(AIRSteam_GetUserPublishedItemVoteDetails, [file])) return false;
+		public function removeItemKeyValueTags(handle:String, key:String):Boolean {
+			if(!callWrapper(AIRSteam_RemoveItemKeyValueTags, [handle, key])) return false;
 			return readBoolResponse();
 		}
 
-		public function getUserPublishedItemVoteDetailsResult():UserVoteDetails {
-			if(!callWrapper(AIRSteam_GetUserPublishedItemVoteDetailsResult, [])) return null;
-			return readResponse() as UserVoteDetails;
-		}
-
-		public function updateUserPublishedItemVote(file:String, upvote:Boolean):Boolean {
-			if(!callWrapper(AIRSteam_UpdateUserPublishedItemVote, [file, upvote])) return false;
+		public function submitItemUpdate(handle:String, changeNote:String):Boolean {
+			if(!callWrapper(AIRSteam_SubmitItemUpdate, [handle, changeNote])) return false;
 			return readBoolResponse();
 		}
 
-		public function setUserPublishedFileAction(file:String, action:uint):Boolean {
-			if(!callWrapper(AIRSteam_SetUserPublishedFileAction, [file, action])) return false;
+		public function subscribeItem(publishedFileId:String):Boolean {
+			if(!callWrapper(AIRSteam_SubscribeItem, [publishedFileId])) return false;
+			return readBoolResponse();
+		}
+
+		public function unsubscribeItem(publishedFileId:String):Boolean {
+			if(!callWrapper(AIRSteam_UnsubscribeItem, [publishedFileId])) return false;
+			return readBoolResponse();
+		}
+
+		public function getSubscribedItems():Array {
+			if(!callWrapper(AIRSteam_GetSubscribedItems, [])) return [];
+			return readResponse() as Array;
+		}
+
+		public function getItemState(publishedFileId:String):uint {
+			if(!callWrapper(AIRSteam_GetItemState, [publishedFileId])) return 0;
+			return readIntResponse();
+		}
+
+		public function getItemInstallInfo(publishedFileId:String):UGCItemInstallInfo {
+			if(!callWrapper(AIRSteam_GetItemInstallInfo, [publishedFileId])) return null;
+			return readResponse() as UGCItemInstallInfo;
+		}
+
+		public function getItemDownloadInfo(publishedFileId:String):Array {
+			if(!callWrapper(AIRSteam_GetItemDownloadInfo, [publishedFileId])) return [];
+			return readResponse() as Array;
+		}
+
+		public function downloadItem(publishedFileId:String, highPriority:Boolean):Boolean {
+			if(!callWrapper(AIRSteam_DownloadItem, [publishedFileId, highPriority])) return false;
 			return readBoolResponse();
 		}
 

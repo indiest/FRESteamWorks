@@ -5,7 +5,11 @@ The builds described in this file can be [downloaded here](http://dump.ventero.d
 A full list of implemented functions can be found by following the link in the
 version number.
 
-### [HEAD](https://github.com/Ventero/FRESteamWorks/blob/HEAD/lib/API.txt)
+### [HEAD](https://github.com/indiest/FRESteamWorks/blob/HEAD/lib/API.txt)
+
+### [v0.6]
+ - Removed all wrapper functions deprecated in ISteamRemoteStorage.
+ - Added wrapper functions added in ISteamUGC.
 
 ### [v0.5-29-gea3356b](https://github.com/Ventero/FRESteamWorks/blob/v0.5-29-gea3356b/lib/API.txt)
  - Added `setEnv` to allow setting environment variables.

@@ -42,6 +42,12 @@ package com.amanitadesign.steam {
 		public static const RESPONSE_OnValidateAuthTicketResponse:int = 26;
 		public static const RESPONSE_OnDLCInstalled:int = 27;
 		public static const RESPONSE_OnMicroTxnAuthorizationResponse:int = 28;
+		public static const RESPONSE_OnCreateItem:int = 29;
+		public static const RESPONSE_OnSubmitItemUpdate:int = 30;
+		public static const RESPONSE_OnQueryUGC:int = 31;
+		public static const RESPONSE_OnSubscribeItem:int = 32;
+		public static const RESPONSE_OnUnsubscribeItem:int = 33;
+		public static const RESPONSE_OnDownloadItem:int = 34;
 		// END GENERATED CODE
 	}
 }

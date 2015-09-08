@@ -1,3 +1,37 @@
+# This project is a fork of [FRESteamWorks by Ventero](https://github.com/Ventero/FRESteamWorks/)
+to adapt the Steam API changes in v1.3: Workshop access in ISteamRemoteStorage had been replaced by ISteamUGC.
+
+Methods added:
+```
+createQueryUserUGCRequest(userId:String, listType:uint, matchingUGCType:uint, sortOrder:uint, creatorAppId:uint, consumerAppId:uint, page:uint):String
+createQueryAllUGCRequest(queryType:uint, matchingUGCType:uint, creatorAppId:uint, consumerAppId:uint, page:uint):String
+createQueryUGCDetailsRequest(publishedFileIds:Array):String
+sendQueryUGCRequest(handle:String):Boolean
+getQueryUGCResult():Array
+createItem(consumerAppId:uint, fileType:uint):Boolean
+createItemResult():String
+startItemUpdate(consumerAppId:uint, fileId:String):String
+setItemTitle(handle:String, title:String):Boolean
+setItemDescription(handle:String, desc:String):Boolean
+setItemUpdateLanguage(handle:String, lang:String):Boolean
+setItemMetadata(handle:String, metadata:String):Boolean
+setItemVisibility(handle:String, visibility:uint):Boolean
+setItemTags(handle:String, tags:Array):Boolean
+setItemContent(handle:String, contentFolder:String):Boolean
+setItemPreview(handle:String, previewPath:String):Boolean
+addItemKeyValueTag(handle:String, key:String, value:String):Boolean
+removeItemKeyValueTags(handle:String, key:String):Boolean
+submitItemUpdate(handle:String, changeNote:String):Boolean
+subscribeItem(publishedFileId:String):Boolean
+unsubscribeItem(publishedFileId:String):Boolean
+getSubscribedItems():Array
+getItemState(publishedFileId:String):uint
+getItemInstallInfo(publishedFileId:String):UGCItemInstallInfo
+getItemDownloadInfo(publishedFileId:String):Array
+downloadItem(publishedFileId:String, highPriority:Boolean):Boolean
+```
+Methods removed:
+
 # Steamworks API for AIR applications #
 
 A simple Steamworks API wrapper to be used as native extension for Adobe AIR
@@ -8,9 +42,9 @@ OS X and Linux.
 This project initially started as a fork of [FRESteamWorks by Oldes/Amanita Design](https://github.com/Oldes/FRESteamWorks/).
 
 If you want to contribute to this project, please take a look at the
-[contributing guide](https://github.com/Ventero/FRESteamWorks/tree/master/CONTRIBUTING.md).
+[contributing guide](https://github.com/indiest/FRESteamWorks/tree/master/CONTRIBUTING.md).
 
-For a list of changes, see [the changelog](https://github.com/Ventero/FRESteamWorks/tree/master/CHANGELOG.md).
+For a list of changes, see [the changelog](https://github.com/indiest/FRESteamWorks/tree/master/CHANGELOG.md).
 
 # Download #
 
@@ -21,20 +55,20 @@ binary has to be built manually, see [the Linux section](#linux) for more detail
 # API Documentation #
 
 For a full list of all supported functions with some accompanying documentation,
-see [lib/API.txt](https://github.com/Ventero/FRESteamWorks/blob/master/lib/API.txt).
+see [lib/API.txt](https://github.com/indiest/FRESteamWorks/blob/master/lib/API.txt).
 In general, the FRESteamWorks API functions try to be a close representation of
 the native Steamworks SDK functions. Thus, for detailed documentation, see the
 Steamworks SDK docs.
 
 The objects returned by certain API functions are plain data structures.
-For a list of available properties, see [the corresponding source files](https://github.com/Ventero/FRESteamWorks/tree/master/lib/src/com/amanitadesign/steam).
+For a list of available properties, see [the corresponding source files](https://github.com/indiest/FRESteamWorks/tree/master/lib/src/com/amanitadesign/steam).
 
 # Usage #
 
 For Windows/OS X builds, you'll only have to include the ANE in your project like
 any normal SWC, add the extension to your application descriptor and include
 `extendedDesktop` in the list of supported profiles. For an example, see
-[the application descriptor of the FRESteamWorks test application](https://github.com/Ventero/FRESteamWorks/blob/master/test/bin-debug/FRESteamWorksTest-app.xml#L14-17).
+[the application descriptor of the FRESteamWorks test application](https://github.com/indiest/FRESteamWorks/blob/master/test/bin-debug/FRESteamWorksTest-app.xml#L14-17).
 
 Testing your application is a bit more complicated and depends on how your project
 is built. For detailed information, see below. For general information regarding
@@ -107,16 +141,16 @@ Since the native library included in the ANE is dynamically linked against the
 Steamworks library, you'll also have to make sure that the dynamic linker can find
 the Steamworks library. When testing, this is easiest done by adding the folder containing
 the Steamworks library to your `%PATH%` environment variable on Windows
-([example](https://github.com/Ventero/FRESteamWorks/blob/master/test/bin-debug/runWin.bat#L9)),
-`DYLD_FALLBACK_LIBRARY_PATH` on OS X ([example](https://github.com/Ventero/FRESteamWorks/blob/master/test/bin-debug/runMac.sh#L6))
-or the library itself to `LD_PRELOAD` on Linux ([example](https://github.com/Ventero/FRESteamWorks/blob/master/test/bin-debug/runLinux.sh#L24)).
+([example](https://github.com/indiest/FRESteamWorks/blob/master/test/bin-debug/runWin.bat#L9)),
+`DYLD_FALLBACK_LIBRARY_PATH` on OS X ([example](https://github.com/indiest/FRESteamWorks/blob/master/test/bin-debug/runMac.sh#L6))
+or the library itself to `LD_PRELOAD` on Linux ([example](https://github.com/indiest/FRESteamWorks/blob/master/test/bin-debug/runLinux.sh#L24)).
 
 ### Packaging ###
 
 For packaged builds, you'll simply have to include the native Steamworks libraries
 in the top level of your build and add the path to a directory containing the
 `FRESteamWorks.ane` as `-extdir` to `adt`. For an example, see the test application's
-[packaging script](https://github.com/Ventero/FRESteamWorks/blob/master/test/bin-debug/packageWin.bat#L13-18).
+[packaging script](https://github.com/indiest/FRESteamWorks/blob/master/test/bin-debug/packageWin.bat#L13-18).
 
 ## Flash Professional ##
 
@@ -166,7 +200,7 @@ For details on how to do that, please contact me directly (email address see pro
 There shouldn't be any reason for you to manually build the FRESteamWorks.ane,
 as pre-built ANEs can be downloaded from http://dump.ventero.de/FRESteamWorks/.
 If you need a more recent version than the builds that are available on that site,
-you can create an issue in the [bug tracker](https://github.com/Ventero/FRESteamWorks/issues).
+you can create an issue in the [bug tracker](https://github.com/indiest/FRESteamWorks/issues).
 
 If you still want to build the ANE yourself (or build the test application), a few
 simple steps have to be followed.
@@ -192,10 +226,10 @@ copying it over to the directory created on OS X and then running `compile.sh`
 and `build.sh` in that order.
 
 For more details, please see the
-[contributing guide](https://github.com/Ventero/FRESteamWorks/tree/master/CONTRIBUTING.md).
+[contributing guide](https://github.com/indiest/FRESteamWorks/tree/master/CONTRIBUTING.md).
 
 ---
 
 # License #
 
-See [LICENSE](https://github.com/Ventero/FRESteamWorks/tree/master/LICENSE).
+See [LICENSE](https://github.com/indiest/FRESteamWorks/tree/master/LICENSE).

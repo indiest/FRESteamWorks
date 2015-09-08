@@ -32,7 +32,8 @@ CSteam::CSteam():
 	m_OnValidateAuthTicketResponse(this, &CSteam::OnValidateAuthTicketResponse),
 	m_CallbackGameOverlayActivated(this, &CSteam::OnGameOverlayActivated),
 	m_CallbackDLCInstalled(this, &CSteam::OnDLCInstalled),
-	m_CallbackMicroTxnAuthorizationResponse(this, &CSteam::OnMicroTxnAuthorizationResponse)
+	m_CallbackMicroTxnAuthorizationResponse(this, &CSteam::OnMicroTxnAuthorizationResponse),
+	m_CallbackDownloadItem(this, &CSteam::OnDownloadItem)
 {
 }
 
@@ -438,6 +439,221 @@ RemoteStorageDownloadUGCResult_t* CSteam::GetUGCDownloadResult(UGCHandle_t handl
 
 	return &it->second;
 }
+
+
+UGCQueryHandle_t CSteam::CreateQueryUserUGCRequest(AccountID_t unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint32 unPage) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->CreateQueryUserUGCRequest(unAccountID, eListType, eMatchingUGCType, eSortOrder, nCreatorAppID, nConsumerAppID, unPage);
+}
+
+UGCQueryHandle_t CSteam::CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint32 unPage) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->CreateQueryAllUGCRequest(eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, unPage);
+}
+
+UGCQueryHandle_t CSteam::CreateQueryUGCDetailsRequest(PublishedFileId_t *pvecPublishedFileID, uint32 unNumPublishedFileIDs) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->CreateQueryUGCDetailsRequest(pvecPublishedFileID, unNumPublishedFileIDs);
+}
+
+bool CSteam::SendQueryUGCRequest(UGCQueryHandle_t handle) {
+	if (!m_bInitialized) return false;
+	
+	SteamAPICall_t result = m_ctx.SteamUGC()->SendQueryUGCRequest(handle);
+	m_CallbackQueryUGC.Set(result, this, &CSteam::OnQueryUGC);
+	return true;
+}
+
+std::vector<SteamUGCDetails_t> CSteam::GetQueryUGCResult() {
+	std::vector<SteamUGCDetails_t> res;
+	if (!m_bInitialized || m_UGCQuery.get() == nullptr) return res;
+
+	int count = m_UGCQuery->m_unNumResultsReturned;
+	if (!count) return res;
+
+	res.reserve(count);
+
+	res.reserve(count);
+	for (int i = 0; i < count; ++i) {
+		SteamUGCDetails_t details;
+		m_ctx.SteamUGC()->GetQueryUGCResult(m_UGCQuery->m_handle, i, &details);
+		res.push_back(details);
+	}
+
+	return res;
+}
+
+std::string CSteam::GetQueryUGCPreviewURL(uint32 index) {
+	if (!m_bInitialized || m_UGCQuery.get() == nullptr) return NULL;
+
+	char url[2048];
+	if (m_ctx.SteamUGC()->GetQueryUGCPreviewURL(m_UGCQuery->m_handle, index, &url[0], 2048)) {
+		return std::string(url);
+	}
+	return NULL;
+}
+
+std::string CSteam::GetQueryUGCMetadata(uint32 index) {
+	if (!m_bInitialized || m_UGCQuery.get() == nullptr) return NULL;
+
+	char metadata[2048];
+	if (m_ctx.SteamUGC()->GetQueryUGCMetadata(m_UGCQuery->m_handle, index, &metadata[0], 2048)) {
+		return std::string(metadata);
+	}
+	return NULL;
+}
+
+bool CSteam::ReleaseQueryUGCRequest() {
+	if (!m_bInitialized || m_UGCQuery.get() == nullptr) return false;
+
+	return m_ctx.SteamUGC()->ReleaseQueryUGCRequest(m_UGCQuery.get()->m_handle);
+}
+
+bool CSteam::CreateItem(AppId_t nConsumerAppId, EWorkshopFileType eFileType) {
+	if (!m_bInitialized) return false;
+
+	SteamAPICall_t result = m_ctx.SteamUGC()->CreateItem(nConsumerAppId, eFileType);
+	m_CallbackCreateItem.Set(result, this, &CSteam::OnCreateItem);
+	return true;
+}
+
+PublishedFileId_t CSteam::CreateItemResult() {
+	if (!m_bInitialized) return 0;
+
+	return m_PublishedFileId;
+}
+
+UGCUpdateHandle_t CSteam::StartItemUpdate(AppId_t nConsumerAppId, PublishedFileId_t nPublishedFileID) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->StartItemUpdate(nConsumerAppId, nPublishedFileID);
+}
+
+bool CSteam::SetItemTitle(UGCUpdateHandle_t handle, std::string pchTitle) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->SetItemTitle(handle, pchTitle.c_str());
+}
+
+bool CSteam::SetItemDescription(UGCUpdateHandle_t handle, std::string pchDescription) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->SetItemDescription(handle, pchDescription.c_str());
+}
+
+bool CSteam::SetItemUpdateLanguage(UGCUpdateHandle_t handle, std::string pchLanguage) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->SetItemUpdateLanguage(handle, pchLanguage.c_str());
+}
+
+bool CSteam::SetItemMetadata(UGCUpdateHandle_t handle, std::string pchMetaData) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->SetItemMetadata(handle, pchMetaData.c_str());
+}
+
+bool CSteam::SetItemVisibility(UGCUpdateHandle_t handle, ERemoteStoragePublishedFileVisibility eVisibility) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->SetItemVisibility(handle, eVisibility);
+}
+
+bool CSteam::SetItemTags(UGCUpdateHandle_t handle, const SteamParamStringArray_t *pTags) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->SetItemTags(handle, pTags);
+}
+
+bool CSteam::SetItemContent(UGCUpdateHandle_t handle, std::string pszContentFolder) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->SetItemContent(handle, pszContentFolder.c_str());
+}
+
+bool CSteam::SetItemPreview(UGCUpdateHandle_t handle, std::string pszPreviewFile) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->SetItemPreview(handle, pszPreviewFile.c_str());
+}
+
+bool CSteam::RemoveItemKeyValueTags(UGCUpdateHandle_t handle, std::string pchKey) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->RemoveItemKeyValueTags(handle, pchKey.c_str());
+}
+
+bool CSteam::AddItemKeyValueTag(UGCUpdateHandle_t handle, std::string pchKey, std::string pchValue) {
+	if (!m_bInitialized) return 0;
+
+	return m_ctx.SteamUGC()->AddItemKeyValueTag(handle, pchKey.c_str(), pchValue.c_str());
+}
+
+bool CSteam::SubmitItemUpdate(UGCUpdateHandle_t handle, std::string pchChangeNote) {
+	if (!m_bInitialized) return false;
+
+	SteamAPICall_t result = m_ctx.SteamUGC()->SubmitItemUpdate(handle, pchChangeNote.c_str());
+	m_CallbackSubmitItemUpdate.Set(result, this, &CSteam::OnSubmitItemUpdate);
+	return true;
+}
+
+SteamAPICall_t CSteam::SubscribeItem(PublishedFileId_t nPublishedFileID) {
+	if (!m_bInitialized) return false;
+
+	SteamAPICall_t result = m_ctx.SteamUGC()->SubscribeItem(nPublishedFileID);
+	m_CallbackSubscribeItem.Set(result, this, &CSteam::OnSubscribeItem);
+	return true;
+}
+
+SteamAPICall_t CSteam::UnsubscribeItem(PublishedFileId_t nPublishedFileID) {
+	if (!m_bInitialized) return false;
+
+	SteamAPICall_t result = m_ctx.SteamUGC()->UnsubscribeItem(nPublishedFileID);
+	m_CallbackUnsubscribeItem.Set(result, this, &CSteam::OnUnsubscribeItem);
+	return true;
+}
+
+std::vector<PublishedFileId_t> CSteam::GetSubscribedItems() {
+	std::vector<PublishedFileId_t> res;
+	if (!m_bInitialized) return res;
+
+	int count = m_ctx.SteamUGC()->GetNumSubscribedItems();
+	if (count == 0) return res;
+
+	res.reserve(count);
+	m_ctx.SteamUGC()->GetSubscribedItems(&res[0], count);
+	return res;
+}
+
+uint32 CSteam::GetItemState(PublishedFileId_t nPublishedFileID) {
+	if (!m_bInitialized) return false;
+
+	return m_ctx.SteamUGC()->GetItemState(nPublishedFileID);
+}
+
+bool CSteam::GetItemInstallInfo(PublishedFileId_t nPublishedFileID, uint64 *punSizeOnDisk, char *pchFolder, uint32 cchFolderSize, uint32 *punTimeStamp) {
+	if (!m_bInitialized) return false;
+
+	return m_ctx.SteamUGC()->GetItemInstallInfo(nPublishedFileID, punSizeOnDisk, pchFolder, cchFolderSize, punTimeStamp);
+}
+
+bool CSteam::GetItemDownloadInfo(PublishedFileId_t nPublishedFileID, uint64 *punBytesDownloaded, uint64 *punBytesTotal) {
+	if (!m_bInitialized) return false;
+
+	return m_ctx.SteamUGC()->GetItemDownloadInfo(nPublishedFileID, punBytesDownloaded, punBytesTotal);
+}
+
+bool CSteam::DownloadItem(PublishedFileId_t nPublishedFileID, bool bHighPriority) {
+	if (!m_bInitialized) return false;
+
+	return m_ctx.SteamUGC()->DownloadItem(nPublishedFileID, bHighPriority);
+}
+
+
+
 
 bool CSteam::PublishWorkshopFile(std::string name, std::string preview,
 	AppId_t nConsumerAppId, std::string title, std::string description,
@@ -911,6 +1127,35 @@ void CSteam::OnDownloadLeaderboardEntries(LeaderboardScoresDownloaded_t *result,
 	if (!failure) m_ScoreDownloaded.reset(new LeaderboardScoresDownloaded_t(*result));
 	DispatchEvent(RESPONSE_OnDownloadLeaderboardEntries, result->m_cEntryCount ? k_EResultOK : k_EResultFail);
 }
+
+void CSteam::OnQueryUGC(SteamUGCQueryCompleted_t *result, bool failure) {
+	if (!failure) m_UGCQuery.reset(new SteamUGCQueryCompleted_t(*result));
+	DispatchEvent(RESPONSE_OnQueryUGC, result->m_eResult);
+}
+
+void CSteam::OnCreateItem(CreateItemResult_t *result, bool failure) {
+	if (!failure) m_PublishedFileId = result->m_nPublishedFileId;
+	DispatchEvent(RESPONSE_OnCreateItem, result->m_eResult);
+}
+
+void CSteam::OnSubmitItemUpdate(SubmitItemUpdateResult_t *result, bool failure) {
+	DispatchEvent(RESPONSE_OnSubmitItemUpdate, result->m_eResult);
+}
+
+void CSteam::OnSubscribeItem(RemoteStorageSubscribePublishedFileResult_t *result, bool failure) {
+	DispatchEvent(RESPONSE_OnSubscribeItem, result->m_eResult);
+}
+
+void CSteam::OnUnsubscribeItem(RemoteStorageUnsubscribePublishedFileResult_t *result, bool failure) {
+	DispatchEvent(RESPONSE_OnUnsubscribeItem, result->m_eResult);
+}
+
+void CSteam::OnDownloadItem(DownloadItemResult_t *result) {
+	DispatchEvent(RESPONSE_OnDownloadItem, result->m_eResult);
+}
+
+
+
 
 void CSteam::OnFileShare(RemoteStorageFileShareResult_t *result, bool failure) {
 	if (!failure) m_FileHandle = result->m_hFile;
